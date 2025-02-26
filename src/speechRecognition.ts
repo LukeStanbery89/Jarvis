@@ -51,4 +51,14 @@ export class SpeechRecognition extends EventEmitter {
         console.info("\nStopping...");
         this.micInstance.stop();
     }
+
+    pause() {
+        console.info("Pausing...");
+        this.micInstance.pause();
+    }
+
+    resume() {
+        console.info("Resuming...");
+        this.micInstance.resume();
+    }
 }
