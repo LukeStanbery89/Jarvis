@@ -1,6 +1,7 @@
 import { EventEmitter } from "events";
 import { AudioInputStrategy } from "../audioInput/audioInputStrategy";
 import { SpeechRecognitionStrategy } from "./speechRecognitionStrategy";
+import { SPEECH_RECOGNITION_EVENT, AUDIO_INPUT_EVENT } from "../events";
 
 export class SpeechRecognition extends EventEmitter {
     private audioInputStrategy: AudioInputStrategy;
@@ -13,24 +14,24 @@ export class SpeechRecognition extends EventEmitter {
 
         const audioInputStream = this.audioInputStrategy.getAudioStream();
 
-        audioInputStream.on("data", (data: Buffer) => {
+        audioInputStream.on(AUDIO_INPUT_EVENT.DATA, (data: Buffer) => {
             this.speechRecognitionStrategy.acceptWaveform(data);
             const partialResult = this.speechRecognitionStrategy.partialResult();
             if (partialResult.partial) {
-                this.emit("partial", partialResult.partial);
+                this.emit(SPEECH_RECOGNITION_EVENT.PARTIAL, partialResult.partial);
             }
         });
 
-        audioInputStream.on("error", (err: Error) => {
-            this.emit("error", err);
+        audioInputStream.on(AUDIO_INPUT_EVENT.ERROR, (err: Error) => {
+            this.emit(SPEECH_RECOGNITION_EVENT.ERROR, err);
         });
 
-        audioInputStream.on("silence", () => {
+        audioInputStream.on(AUDIO_INPUT_EVENT.SILENCE, () => {
             const finalResult = this.speechRecognitionStrategy.finalResult();
             if (finalResult.text) {
-                this.emit("speech", finalResult.text);
+                this.emit(SPEECH_RECOGNITION_EVENT.SPEECH, finalResult.text);
             }
-            this.emit("silence");
+            this.emit(SPEECH_RECOGNITION_EVENT.SILENCE);
         });
     }
 
