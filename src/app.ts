@@ -1,10 +1,12 @@
 import { SpeechRecognition } from "./speechRecognition";
 import { TextToSpeech } from "./textToSpeech";
 import { SayTTS } from "./sayTTS";
+import { MicAudioInputStrategy } from "./micAudioInputStrategy";
 
 // TODO: avoid hardcoding model path
 const modelPath = "model/vosk-model-small-en-us-0.15";
-const speechRecognition = new SpeechRecognition(modelPath);
+const audioInputStrategy = new MicAudioInputStrategy();
+const speechRecognition = new SpeechRecognition(modelPath, audioInputStrategy);
 const textToSpeech = new TextToSpeech(new SayTTS());
 
 speechRecognition.on("partial", (text: string) => {

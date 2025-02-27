@@ -1,27 +1,21 @@
 import { EventEmitter } from "events";
 import { Model, Recognizer } from "vosk";
-import mic from "mic";
+import { AudioInputStrategy } from "./audioInputStrategy";
 
 export class SpeechRecognition extends EventEmitter {
     private model: Model;
     private recognizer: Recognizer<any>;
-    private micInstance: mic.MicInstance;
+    private audioInputStrategy: AudioInputStrategy;
 
-    constructor(modelPath: string, sampleRate: number = 16000) {
+    constructor(modelPath: string, audioInputStrategy: AudioInputStrategy, sampleRate: number = 16000) {
         super();
         this.model = new Model(modelPath);
         this.recognizer = new Recognizer({ model: this.model, sampleRate });
+        this.audioInputStrategy = audioInputStrategy;
 
-        this.micInstance = mic({
-            rate: sampleRate.toString(),
-            channels: "1",
-            debug: false,
-            exitOnSilence: 6,
-        });
+        const audioInputStream = this.audioInputStrategy.getAudioStream();
 
-        const micInputStream = this.micInstance.getAudioStream();
-
-        micInputStream.on("data", (data: Buffer) => {
+        audioInputStream.on("data", (data: Buffer) => {
             this.recognizer.acceptWaveform(data);
             const partialResult = this.recognizer.partialResult();
             if (partialResult.partial) {
@@ -29,11 +23,11 @@ export class SpeechRecognition extends EventEmitter {
             }
         });
 
-        micInputStream.on("error", (err: Error) => {
+        audioInputStream.on("error", (err: Error) => {
             this.emit("error", err);
         });
 
-        micInputStream.on("silence", () => {
+        audioInputStream.on("silence", () => {
             const finalResult = this.recognizer.finalResult();
             if (finalResult.text) {
                 this.emit("speech", finalResult.text);
@@ -44,21 +38,21 @@ export class SpeechRecognition extends EventEmitter {
 
     start() {
         console.info("Listening... Speak now.");
-        this.micInstance.start();
+        this.audioInputStrategy.start();
     }
 
     stop() {
         console.info("\nStopping...");
-        this.micInstance.stop();
+        this.audioInputStrategy.stop();
     }
 
     pause() {
         console.info("Pausing...");
-        this.micInstance.pause();
+        this.audioInputStrategy.pause();
     }
 
     resume() {
         console.info("Resuming...");
-        this.micInstance.resume();
+        this.audioInputStrategy.resume();
     }
 }
