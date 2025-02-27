@@ -1,6 +1,6 @@
 import { Model, Recognizer } from "vosk";
 import { VoskSpeechRecognitionStrategy } from "../../../../src/speechRecognition/strategies/voskSpeechRecognitionStrategy";
-import config from "../../../../src/config";
+import config from "../../../../../../client/src/config";
 
 jest.mock("vosk");
 

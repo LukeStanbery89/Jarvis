@@ -1,6 +1,6 @@
 import { Model, Recognizer } from "vosk";
 import { SpeechRecognitionStrategy } from "../speechRecognitionStrategy";
-import config from "../../config";
+import config from "../../../../shared/config";
 
 export class VoskSpeechRecognitionStrategy implements SpeechRecognitionStrategy {
     private recognizer: Recognizer<any>;

@@ -1,8 +1,8 @@
 import { Readable } from "stream";
 import { SpeechRecognition } from "../../../src/speechRecognition/speechRecognition";
-import { AudioInputStrategy } from "../../../src/audioInput/audioInputStrategy";
+import { AudioInputStrategy } from "../../../../client/src/audioInput/audioInputStrategy";
 import { SpeechRecognitionStrategy } from "../../../src/speechRecognition/speechRecognitionStrategy";
-import { SPEECH_RECOGNITION_EVENT, AUDIO_INPUT_EVENT } from "../../../src/events";
+import { SPEECH_RECOGNITION_EVENT, AUDIO_INPUT_EVENT } from "../../../../client/src/events";
 
 class MockAudioInputStrategy extends Readable implements AudioInputStrategy {
     start() {

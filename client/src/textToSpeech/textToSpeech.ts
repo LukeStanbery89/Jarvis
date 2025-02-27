@@ -1,6 +1,6 @@
 import { EventEmitter } from "events";
 import { TTSStrategy } from "./ttsStrategy";
-import { TTS_EVENT } from '../events';
+import { TTS_EVENT } from "../../../shared/events";
 
 export class TextToSpeech extends EventEmitter {
     private strategy: TTSStrategy;

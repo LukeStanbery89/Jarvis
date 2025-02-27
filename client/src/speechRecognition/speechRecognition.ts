@@ -1,7 +1,7 @@
 import { EventEmitter } from "events";
 import { AudioInputStrategy } from "../audioInput/audioInputStrategy";
 import { SpeechRecognitionStrategy } from "./speechRecognitionStrategy";
-import { SPEECH_RECOGNITION_EVENT, AUDIO_INPUT_EVENT } from "../events";
+import { SPEECH_RECOGNITION_EVENT, AUDIO_INPUT_EVENT } from "../../../shared/events";
 
 export class SpeechRecognition extends EventEmitter {
     private audioInputStrategy: AudioInputStrategy;
@@ -36,22 +36,22 @@ export class SpeechRecognition extends EventEmitter {
     }
 
     start() {
-        console.info("Listening... Speak now.");
+        console.info("SpeechRecognition", "Listening... Speak now.");
         this.audioInputStrategy.start();
     }
 
     stop() {
-        console.info("\nStopping...");
+        console.info("SpeechRecognition", "Stopping...");
         this.audioInputStrategy.stop();
     }
 
     pause() {
-        console.info("Pausing...");
+        console.info("SpeechRecognition", "Pausing...");
         this.audioInputStrategy.pause();
     }
 
     resume() {
-        console.info("Resuming...");
+        console.info("SpeechRecognition", "Resuming...");
         this.audioInputStrategy.resume();
     }
 }
