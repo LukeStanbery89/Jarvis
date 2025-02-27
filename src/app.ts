@@ -5,10 +5,8 @@ import { MicAudioInputStrategy } from "./audioInput/strategies/micAudioInputStra
 import { VoskSpeechRecognitionStrategy } from "./speechRecognition/strategies/voskSpeechRecognitionStrategy";
 import { IO_EVENT, SPEECH_RECOGNITION_EVENT, TTS_EVENT } from "./events";
 
-// TODO: avoid hardcoding model path
-const modelPath = "model/vosk-model-small-en-us-0.15";
 const audioInputStrategy = new MicAudioInputStrategy();
-const speechRecognitionStrategy = new VoskSpeechRecognitionStrategy(modelPath);
+const speechRecognitionStrategy = new VoskSpeechRecognitionStrategy();
 const speechRecognition = new SpeechRecognition(audioInputStrategy, speechRecognitionStrategy);
 const textToSpeech = new TextToSpeech(new SayTTS());
 
