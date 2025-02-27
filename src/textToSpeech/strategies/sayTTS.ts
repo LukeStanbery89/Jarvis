@@ -7,7 +7,7 @@ export class SayTTS implements TTSStrategy {
             if (err) {
                 console.error("Error in Text-to-Speech:", err);
             } else {
-                console.log("Text-to-Speech completed");
+                console.info("Text-to-Speech completed");
             }
             if (callback) {
                 callback();
