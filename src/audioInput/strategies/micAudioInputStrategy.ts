@@ -1,5 +1,5 @@
 import mic from "mic";
-import { AudioInputStrategy } from "./audioInputStrategy";
+import { AudioInputStrategy } from "../audioInputStrategy";
 import { Readable } from "stream";
 
 export class MicAudioInputStrategy implements AudioInputStrategy {

@@ -14,10 +14,8 @@ export class TextToSpeech extends EventEmitter {
     }
 
     speak(text: string, voice?: string) {
-        console.log("emitting start");
         this.emit("start");
         this.strategy.speak(text, voice, () => {
-            console.log("emitting end");
             this.emit("end");
         });
     }

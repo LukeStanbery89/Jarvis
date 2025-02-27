@@ -1,5 +1,5 @@
 import say from "say";
-import { TTSStrategy } from "./ttsStrategy";
+import { TTSStrategy } from "../ttsStrategy";
 
 export class SayTTS implements TTSStrategy {
     speak(text: string, voice: string = "Alex", callback?: () => void) {

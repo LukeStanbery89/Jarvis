@@ -1,23 +1,21 @@
 import { EventEmitter } from "events";
-import { Model, Recognizer } from "vosk";
-import { AudioInputStrategy } from "./audioInputStrategy";
+import { AudioInputStrategy } from "../audioInput/audioInputStrategy";
+import { SpeechRecognitionStrategy } from "./speechRecognitionStrategy";
 
 export class SpeechRecognition extends EventEmitter {
-    private model: Model;
-    private recognizer: Recognizer<any>;
     private audioInputStrategy: AudioInputStrategy;
+    private speechRecognitionStrategy: SpeechRecognitionStrategy;
 
-    constructor(modelPath: string, audioInputStrategy: AudioInputStrategy, sampleRate: number = 16000) {
+    constructor(audioInputStrategy: AudioInputStrategy, speechRecognitionStrategy: SpeechRecognitionStrategy) {
         super();
-        this.model = new Model(modelPath);
-        this.recognizer = new Recognizer({ model: this.model, sampleRate });
         this.audioInputStrategy = audioInputStrategy;
+        this.speechRecognitionStrategy = speechRecognitionStrategy;
 
         const audioInputStream = this.audioInputStrategy.getAudioStream();
 
         audioInputStream.on("data", (data: Buffer) => {
-            this.recognizer.acceptWaveform(data);
-            const partialResult = this.recognizer.partialResult();
+            this.speechRecognitionStrategy.acceptWaveform(data);
+            const partialResult = this.speechRecognitionStrategy.partialResult();
             if (partialResult.partial) {
                 this.emit("partial", partialResult.partial);
             }
@@ -28,7 +26,7 @@ export class SpeechRecognition extends EventEmitter {
         });
 
         audioInputStream.on("silence", () => {
-            const finalResult = this.recognizer.finalResult();
+            const finalResult = this.speechRecognitionStrategy.finalResult();
             if (finalResult.text) {
                 this.emit("speech", finalResult.text);
             }
