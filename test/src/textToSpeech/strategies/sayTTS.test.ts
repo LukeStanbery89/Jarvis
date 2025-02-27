@@ -1,5 +1,6 @@
 import say from "say";
 import { SayTTS } from "../../../../src/textToSpeech/strategies/sayTTS";
+import config from "../../../../src/config";
 
 jest.mock("say");
 
@@ -12,7 +13,7 @@ describe("SayTTS", () => {
 
     it("should call say.speak with the correct arguments", () => {
         const text = "Hello, world!";
-        const voice = "Alex";
+        const voice = config.tts.say.voiceFont;
         const callback = jest.fn();
 
         sayTTS.speak(text, voice, callback);
@@ -22,7 +23,7 @@ describe("SayTTS", () => {
 
     it("should call the callback after speaking", (done) => {
         const text = "Hello, world!";
-        const voice = "Alex";
+        const voice = config.tts.say.voiceFont;
         const callback = jest.fn(() => {
             done();
         });
@@ -39,7 +40,7 @@ describe("SayTTS", () => {
     it("should log an error if say.speak returns an error", () => {
         const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => { });
         const text = "Hello, world!";
-        const voice = "Alex";
+        const voice = config.tts.say.voiceFont;
         const error = new Error("Test error");
 
         (say.speak as jest.Mock).mockImplementation((text, voice, speed, cb) => {
@@ -56,7 +57,7 @@ describe("SayTTS", () => {
     it("should log a message when text-to-speech is completed", () => {
         const consoleLogSpy = jest.spyOn(console, "info").mockImplementation(() => { });
         const text = "Hello, world!";
-        const voice = "Alex";
+        const voice = config.tts.say.voiceFont;
 
         (say.speak as jest.Mock).mockImplementation((text, voice, speed, cb) => {
             cb();

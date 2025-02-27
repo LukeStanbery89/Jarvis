@@ -4,6 +4,8 @@ import { SayTTS } from "./textToSpeech/strategies/sayTTS";
 import { MicAudioInputStrategy } from "./audioInput/strategies/micAudioInputStrategy";
 import { VoskSpeechRecognitionStrategy } from "./speechRecognition/strategies/voskSpeechRecognitionStrategy";
 import { IO_EVENT, SPEECH_RECOGNITION_EVENT, TTS_EVENT } from "./events";
+import { getResponse } from "./promptResponse";
+import { WAKE_PHRASE } from "./constants";
 
 const audioInputStrategy = new MicAudioInputStrategy();
 const speechRecognitionStrategy = new VoskSpeechRecognitionStrategy();
@@ -16,7 +18,14 @@ speechRecognition.on(SPEECH_RECOGNITION_EVENT.PARTIAL, (text: string) => {
 
 speechRecognition.on(SPEECH_RECOGNITION_EVENT.SPEECH, (text: string) => {
     console.info("Final result:", text);
-    textToSpeech.speak(text);
+    const lowerCaseText = text.toLowerCase();
+    const wakePhraseIndex = lowerCaseText.indexOf(WAKE_PHRASE);
+
+    if (wakePhraseIndex !== -1) {
+        const prompt = text.slice(wakePhraseIndex + WAKE_PHRASE.length).trim();
+        const responseText = getResponse(prompt);
+        textToSpeech.speak(responseText);
+    }
 });
 
 speechRecognition.on(SPEECH_RECOGNITION_EVENT.ERROR, (err: Error) => {
