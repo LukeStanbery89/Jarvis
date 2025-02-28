@@ -4,7 +4,7 @@
     "scripts": {
         "start:client": "nodemon --watch client/src --ext ts --exec ts-node -P ./tsconfig.json ./client/src/app.ts",
         "start:server": "nodemon --watch server/src --ext ts --exec ts-node -P ./tsconfig.json ./server/src/app.ts",
-        "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
+        "start": "concurrently -n server,client -c cyan,magenta \"npm run start:server\" \"npm run start:client\"",
         "test": "jest --verbose",
         "prepare": "husky install"
     },
