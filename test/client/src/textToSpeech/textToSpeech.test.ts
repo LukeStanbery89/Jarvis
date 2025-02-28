@@ -1,6 +1,6 @@
 import { EventEmitter } from "events";
-import { TextToSpeech } from "../../../src/textToSpeech/textToSpeech";
-import { TTSStrategy } from "../../../src/textToSpeech/ttsStrategy";
+import { TextToSpeech } from "../../../../client/src/textToSpeech/textToSpeech";
+import { TTSStrategy } from "../../../../client/src/textToSpeech/ttsStrategy";
 import { TTS_EVENT } from "../../../../shared/events";
 
 class MockTTSStrategy implements TTSStrategy {

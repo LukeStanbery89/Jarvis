@@ -1,4 +1,4 @@
-import { getResponse } from "../../src/promptResponse";
+import { getResponse } from "../../../server/src/promptResponse";
 
 describe("getResponse", () => {
     it("should return a default response for any prompt", () => {

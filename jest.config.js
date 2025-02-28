@@ -9,7 +9,9 @@ module.exports = {
     coverageDirectory: 'coverage',
     setupFilesAfterEnv: ['./jest.setup.js'],
     collectCoverageFrom: [
-        'src/**/*.{js,ts}', // Include all JavaScript and TypeScript files in the src directory
-        '!src/**/*.d.ts',   // Exclude TypeScript declaration files
+        'server/**/*.{js,ts}',
+        'client/**/*.{js,ts}',
+        'shared/**/*.{js,ts}',
+        '!src/**/*.d.ts', // Exclude TypeScript declaration files
     ],
 };

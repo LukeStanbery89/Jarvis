@@ -1,5 +1,5 @@
 import mic from "mic";
-import { MicAudioInputStrategy } from "../../../../src/audioInput/strategies/micAudioInputStrategy";
+import { MicAudioInputStrategy } from "../../../../../client/src/audioInput/strategies/micAudioInputStrategy";
 import { Readable } from "stream";
 
 jest.mock("mic");

@@ -1,5 +1,5 @@
 import say from "say";
-import { SayTTS } from "../../../../src/textToSpeech/strategies/sayTTS";
+import { SayTTS } from "../../../../../client/src/textToSpeech/strategies/sayTTS";
 import config from "../../../../../shared/config";
 
 jest.mock("say");
