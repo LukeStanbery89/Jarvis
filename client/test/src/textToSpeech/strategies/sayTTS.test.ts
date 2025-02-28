@@ -1,6 +1,6 @@
 import say from "say";
 import { SayTTS } from "../../../../src/textToSpeech/strategies/sayTTS";
-import config from "../../../../src/config";
+import config from "../../../../../shared/config";
 
 jest.mock("say");
 
@@ -49,13 +49,13 @@ describe("SayTTS", () => {
 
         sayTTS.speak(text, voice);
 
-        expect(consoleErrorSpy).toHaveBeenCalledWith("Error in Text-to-Speech:", error);
+        expect(consoleErrorSpy).toHaveBeenCalledWith("SayTTS", "Error in Text-to-Speech:", error);
 
         consoleErrorSpy.mockRestore();
     });
 
     it("should log a message when text-to-speech is completed", () => {
-        const consoleLogSpy = jest.spyOn(console, "info").mockImplementation(() => { });
+        const consoleLogSpy = jest.spyOn(console, "debug").mockImplementation(() => { });
         const text = "Hello, world!";
         const voice = config.tts.say.voiceFont;
 
@@ -65,7 +65,7 @@ describe("SayTTS", () => {
 
         sayTTS.speak(text, voice);
 
-        expect(consoleLogSpy).toHaveBeenCalledWith("Text-to-Speech completed");
+        expect(consoleLogSpy).toHaveBeenCalledWith("SayTTS", "Text-to-Speech completed");
 
         consoleLogSpy.mockRestore();
     });

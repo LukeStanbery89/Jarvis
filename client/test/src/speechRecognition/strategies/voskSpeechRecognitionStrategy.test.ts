@@ -1,6 +1,6 @@
 import { Model, Recognizer } from "vosk";
 import { VoskSpeechRecognitionStrategy } from "../../../../src/speechRecognition/strategies/voskSpeechRecognitionStrategy";
-import config from "../../../../../../client/src/config";
+import config from "../../../../../shared/config";
 
 jest.mock("vosk");
 
@@ -9,8 +9,16 @@ describe("VoskSpeechRecognitionStrategy", () => {
     let mockRecognizer: jest.Mocked<Recognizer<any>>;
 
     beforeEach(() => {
-        const mockModel = new Model(config.modelPath);
-        mockRecognizer = new Recognizer({ model: mockModel, sampleRate: 16000 }) as jest.Mocked<Recognizer<any>>;
+        const mockModel = {} as Model;
+        mockRecognizer = {
+            acceptWaveform: jest.fn(),
+            partialResult: jest.fn(),
+            finalResult: jest.fn(),
+            reset: jest.fn(),
+            free: jest.fn(),
+        } as unknown as jest.Mocked<Recognizer<any>>;
+
+        (Model as jest.Mock).mockImplementation(() => mockModel);
         (Recognizer as jest.Mock).mockImplementation(() => mockRecognizer);
 
         voskSpeechRecognitionStrategy = new VoskSpeechRecognitionStrategy();
@@ -31,7 +39,7 @@ describe("VoskSpeechRecognitionStrategy", () => {
     });
 
     it("should return final result", () => {
-        const finalResult = { text: "final result", spk: [], spk_frames: 0, result: [] };
+        const finalResult = { text: "final result", spk: [1], spk_frames: 1, result: [] };
         mockRecognizer.finalResult.mockReturnValue(finalResult);
 
         const result = voskSpeechRecognitionStrategy.finalResult();

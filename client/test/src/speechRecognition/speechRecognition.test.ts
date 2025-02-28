@@ -1,10 +1,14 @@
 import { Readable } from "stream";
 import { SpeechRecognition } from "../../../src/speechRecognition/speechRecognition";
-import { AudioInputStrategy } from "../../../../client/src/audioInput/audioInputStrategy";
+import { AudioInputStrategy } from "../../../src/audioInput/audioInputStrategy";
 import { SpeechRecognitionStrategy } from "../../../src/speechRecognition/speechRecognitionStrategy";
-import { SPEECH_RECOGNITION_EVENT, AUDIO_INPUT_EVENT } from "../../../../client/src/events";
+import { SPEECH_RECOGNITION_EVENT, AUDIO_INPUT_EVENT } from "../../../../shared/events";
 
 class MockAudioInputStrategy extends Readable implements AudioInputStrategy {
+    _read(size: number) {
+        // No-op implementation for testing
+    }
+
     start() {
         this.emit(AUDIO_INPUT_EVENT.DATA, Buffer.from("test data"));
     }

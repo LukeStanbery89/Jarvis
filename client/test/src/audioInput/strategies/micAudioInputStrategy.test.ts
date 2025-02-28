@@ -14,7 +14,11 @@ describe("MicAudioInputStrategy", () => {
             stop: jest.fn(),
             pause: jest.fn(),
             resume: jest.fn(),
-            getAudioStream: jest.fn().mockReturnValue(new Readable()),
+            getAudioStream: jest.fn().mockReturnValue(new Readable({
+                read() {
+                    this.push(null); // End the stream immediately
+                }
+            })),
         } as unknown as jest.Mocked<ReturnType<typeof mic>>;
 
         (mic as jest.Mock).mockReturnValue(mockMicInstance);
