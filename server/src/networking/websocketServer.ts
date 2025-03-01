@@ -1,5 +1,6 @@
 import { EventEmitter } from "events";
 import * as WebSocket from "ws";
+import { PromptModuleResult } from '../../../shared/types/prompt';
 
 export class WebSocketServer extends EventEmitter {
     private wss: WebSocket.Server;
@@ -25,10 +26,10 @@ export class WebSocketServer extends EventEmitter {
         });
     }
 
-    send(data: any) {
+    send(result: PromptModuleResult) {
         this.wss.clients.forEach((client) => {
             if (client.readyState === WebSocket.OPEN) {
-                client.send(data);
+                client.send(JSON.stringify(result));
             }
         });
     }

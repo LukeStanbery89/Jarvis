@@ -14,6 +14,6 @@
     "include": [
         "./client/src",
         "./server/src",
-        "./shared",
+        "./shared", "test/server/src/prompt/parser/promptParser.test.ts",
     ]
 }

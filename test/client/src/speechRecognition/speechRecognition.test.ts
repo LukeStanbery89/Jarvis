@@ -27,6 +27,7 @@ class MockSpeechRecognitionStrategy implements SpeechRecognitionStrategy {
     partialResult() {
         return { partial: "partial result" };
     }
+    clearPartial(): void {}
     finalResult() {
         return { text: "final result" };
     }

@@ -1,5 +1,6 @@
 import { WebSocketServer } from "../../../../server/src/networking/websocketServer";
 import WebSocket, { WebSocketServer as WSServer } from "ws";
+import { PromptModuleResult } from '../../../../shared/types/prompt';
 
 jest.mock("ws");
 
@@ -88,10 +89,10 @@ describe("WebSocketServer", () => {
     });
 
     it("should send data to all connected clients", () => {
-        const data = "test data";
+        const data: PromptModuleResult = { responseMessage: "test data" };
         webSocketServer.send(data);
 
-        expect(mockWs.send).toHaveBeenCalledWith(data);
+        expect(mockWs.send).toHaveBeenCalledWith(JSON.stringify(data));
     });
 
     it("should not send data to clients that are not open", () => {
@@ -100,8 +101,7 @@ describe("WebSocketServer", () => {
             readyState: WebSocket.CLOSED,
         } as unknown as jest.Mocked<WebSocket>;
         mockWss.clients = new Set([closedMockWs]);
-        const data = "test data";
-        webSocketServer.send(data);
+        webSocketServer.send({ responseMessage: "test data" });
 
         expect(mockWs.send).not.toHaveBeenCalled();
     });
