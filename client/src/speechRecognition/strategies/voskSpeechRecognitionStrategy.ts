@@ -21,4 +21,8 @@ export class VoskSpeechRecognitionStrategy implements SpeechRecognitionStrategy 
     finalResult() {
         return this.recognizer.finalResult();
     }
+
+    clearPartial() {
+        this.recognizer.reset();
+    }
 }

@@ -1,6 +1,7 @@
 import { EventEmitter } from "events";
 import WebSocket from 'ws';
 import config from '../../../shared/config';
+import { WEBSOCKET_EVENT } from '../../../shared/events';
 
 export class WebSocketClient extends EventEmitter {
     private socket!: WebSocket;
@@ -47,6 +48,7 @@ export class WebSocketClient extends EventEmitter {
             this.socket.send(data);
         } else {
             console.error("WebSocket is not open. Ready state:", this?.socket?.readyState);
+            this.emit(WEBSOCKET_EVENT.CONNECTION_ERROR);
         }
     }
 }

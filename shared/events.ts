@@ -21,6 +21,7 @@ export const AUDIO_INPUT_EVENT = {
 };
 
 export const WEBSOCKET_EVENT = {
-    MESSAGE: 'message',
-    CONNECT: 'connect',
+    MESSAGE: "message",
+    CONNECT: "connect",
+    CONNECTION_ERROR: "connection_error"
 };

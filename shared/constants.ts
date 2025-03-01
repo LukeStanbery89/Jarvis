@@ -1,6 +1,9 @@
 export const WAKE_PHRASES = [
-    "a jarvis", // Say thinks that "hey jarvis" is "a jarvis"
     "hey jarvis",
+    // Say hears "a jarvis" and "he jarvis" instead of "a jarvis"
+    "a jarvis",
+    "he jarvis", 
+
     "ok jarvis",
     "okay jarvis",
 ];

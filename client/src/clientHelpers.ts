@@ -71,6 +71,11 @@ export function startVoiceMode(webSocketClient: WebSocketClient, textToSpeech: T
 
     webSocketClient.on(WEBSOCKET_EVENT.MESSAGE, (responseText: string) => {
         console.log(`Jarvis: ${responseText}`);
+        textToSpeech.speak(responseText);
+    });
+
+    webSocketClient.on(WEBSOCKET_EVENT.CONNECTION_ERROR, () => {
+        textToSpeech.speak("There was a problem connecting to the server. Please try again later.")
     });
 
     process.on(IO_EVENT.SIGINT, () => {
