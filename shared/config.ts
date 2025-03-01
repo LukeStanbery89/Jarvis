@@ -5,4 +5,7 @@ export default {
             voiceFont: "Alex",
         },
     },
+    websocket: {
+        reconnectInterval: 5000, // 5 seconds
+    },
 };

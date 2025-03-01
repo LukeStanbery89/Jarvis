@@ -1,20 +1,26 @@
 import { EventEmitter } from "events";
 import WebSocket from 'ws';
-import { sleep } from '../../../shared/utils';
+import config from '../../../shared/config';
 
 export class WebSocketClient extends EventEmitter {
     private socket!: WebSocket;
+    private address!: string;
 
     constructor() {
         super();
     }
 
     async initialize(address: string) {
-        await sleep(2000);
-        this.socket = new WebSocket(address);
+        this.address = address;
+        await this.connect();
+    }
+
+    private async connect() {
+        this.socket = new WebSocket(this.address);
 
         this.socket.onopen = () => {
             console.info("WebSocket connection opened");
+            this.emit("connect");
         };
 
         this.socket.onmessage = (event) => {
@@ -22,12 +28,18 @@ export class WebSocketClient extends EventEmitter {
         };
 
         this.socket.onerror = (error) => {
-            console.error("WebSocket error:", error);
+            console.error("WebSocket error:", error.message);
         };
 
         this.socket.onclose = () => {
-            console.info("WebSocket connection closed");
+            console.info("WebSocket connection closed, attempting to reconnect...");
+            setTimeout(() => this.reconnect(), config.websocket.reconnectInterval);
         };
+    }
+
+    private async reconnect() {
+        console.info("Reconnecting to WebSocket...");
+        await this.connect();
     }
 
     send(data: any) {

@@ -51,10 +51,10 @@ describe("WebSocketClient", () => {
         const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => { });
 
         await webSocketClient.initialize("ws://localhost:8080");
-        const error = { error: "error", type: "type" } as WebSocket.ErrorEvent;
+        const error = { error: "error", type: "type", message: "websocket error" } as WebSocket.ErrorEvent;
         mockWebSocket.onerror!(error);
 
-        expect(consoleErrorSpy).toHaveBeenCalledWith("WebSocket error:", error);
+        expect(consoleErrorSpy).toHaveBeenCalledWith("WebSocket error:", "websocket error");
 
         consoleErrorSpy.mockRestore();
     });
@@ -66,7 +66,7 @@ describe("WebSocketClient", () => {
         const close = {} as WebSocket.CloseEvent;
         mockWebSocket.onclose!(close);
 
-        expect(consoleInfoSpy).toHaveBeenCalledWith("WebSocket connection closed");
+        expect(consoleInfoSpy).toHaveBeenCalledWith("WebSocket connection closed, attempting to reconnect...");
 
         consoleInfoSpy.mockRestore();
     });

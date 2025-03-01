@@ -6,9 +6,11 @@ const webSocketServer = new WebSocketServer();
 
 webSocketServer.on(WEBSOCKET_EVENT.MESSAGE, (message: string) => {
     const { event, data } = JSON.parse(message);
+    console.info("Received from client:", data);
 
     if (event === WEBSOCKET_EVENT.MESSAGE) {
         const responseText = getResponse(data);
+        console.info("Response:", responseText);
         webSocketServer.send(responseText);
     }
 });

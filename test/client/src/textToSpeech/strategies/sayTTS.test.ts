@@ -65,7 +65,8 @@ describe("SayTTS", () => {
 
         sayTTS.speak(text, voice);
 
-        expect(consoleLogSpy).toHaveBeenCalledWith("SayTTS", "Text-to-Speech completed");
+        expect(consoleLogSpy).toHaveBeenCalledWith("SayTTS", "Speaking...");
+        expect(consoleLogSpy).toHaveBeenCalledWith("SayTTS", "Done speaking.");
 
         consoleLogSpy.mockRestore();
     });
