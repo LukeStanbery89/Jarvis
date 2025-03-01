@@ -1,14 +1,14 @@
 import say from "say";
-import { SayTTS } from "../../../../../client/src/textToSpeech/strategies/sayTTS";
+import { SayTTSStrategy } from "../../../../../client/src/textToSpeech/strategies/sayTTSStrategy";
 import config from "../../../../../shared/config";
 
 jest.mock("say");
 
 describe("SayTTS", () => {
-    let sayTTS: SayTTS;
+    let sayTTS: SayTTSStrategy;
 
     beforeEach(() => {
-        sayTTS = new SayTTS();
+        sayTTS = new SayTTSStrategy();
     });
 
     it("should call say.speak with the correct arguments", () => {

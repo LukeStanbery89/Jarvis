@@ -11,7 +11,7 @@ export class WebSocketClient extends EventEmitter {
 
     async initialize(address: string) {
         await sleep(2000);
-        this.socket = new WebSocket("ws://localhost:8080");
+        this.socket = new WebSocket(address);
 
         this.socket.onopen = () => {
             console.info("WebSocket connection opened");

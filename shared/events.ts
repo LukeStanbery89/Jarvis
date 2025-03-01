@@ -19,3 +19,7 @@ export const AUDIO_INPUT_EVENT = {
     ERROR: "error",
     SILENCE: "silence",
 };
+
+export const WEBSOCKET_EVENT = {
+    MESSAGE: 'message',
+};

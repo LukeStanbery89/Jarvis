@@ -1,17 +1,14 @@
 import { SpeechRecognition } from "./speechRecognition/speechRecognition";
 import { TextToSpeech } from "./textToSpeech/textToSpeech";
-import { SayTTS } from "./textToSpeech/strategies/sayTTS";
+import { SayTTSStrategy } from "./textToSpeech/strategies/sayTTSStrategy";
 import { MicAudioInputStrategy } from "./audioInput/strategies/micAudioInputStrategy";
 import { VoskSpeechRecognitionStrategy } from "./speechRecognition/strategies/voskSpeechRecognitionStrategy";
-import { IO_EVENT, SPEECH_RECOGNITION_EVENT, TTS_EVENT } from "../../shared/events";
+import { IO_EVENT, SPEECH_RECOGNITION_EVENT, TTS_EVENT, WEBSOCKET_EVENT } from "../../shared/events";
 import { WAKE_PHRASES } from "../../shared/constants";
 import { WebSocketClient } from "./networking/websocketClient";
 
-const audioInputStrategy = new MicAudioInputStrategy();
-const speechRecognitionStrategy = new VoskSpeechRecognitionStrategy();
-const speechRecognition = new SpeechRecognition(audioInputStrategy, speechRecognitionStrategy);
-const textToSpeech = new TextToSpeech(new SayTTS());
-    
+const speechRecognition = new SpeechRecognition(new MicAudioInputStrategy(), new VoskSpeechRecognitionStrategy());
+const textToSpeech = new TextToSpeech(new SayTTSStrategy());
 const webSocketClient = new WebSocketClient();
 webSocketClient.initialize("ws://localhost:8080");
 
@@ -26,7 +23,7 @@ speechRecognition.on(SPEECH_RECOGNITION_EVENT.SPEECH, (text: string) => {
 
     if (wakePhrase) {
         const prompt = text.slice(lowerCaseText.indexOf(wakePhrase) + wakePhrase.length).trim();
-        webSocketClient.send(JSON.stringify({ event: 'message', data: prompt }));
+        webSocketClient.send(JSON.stringify({ event: WEBSOCKET_EVENT.MESSAGE, data: prompt }));
     }
 });
 
@@ -57,6 +54,6 @@ process.on(IO_EVENT.SIGINT, () => {
     process.exit();
 });
 
-webSocketClient.on('message', (responseText: string) => {
+webSocketClient.on(WEBSOCKET_EVENT.MESSAGE, (responseText: string) => {
     textToSpeech.speak(responseText);
 });
