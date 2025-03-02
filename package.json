@@ -6,7 +6,7 @@
         "start:server": "nodemon --watch server/src --ext ts --exec ts-node -P ./tsconfig.json ./server/src/app.ts",
         "start": "concurrently -n server,client -c cyan,magenta \"npm run start:server\" \"npm run start:client\"",
         "start:client:repl": "nodemon --watch client/src --ext ts --exec ts-node -P ./tsconfig.json ./client/src/app.ts --repl",
-        "test": "jest --verbose",
+        "test": "jest --verbose --runInBand",
         "prepare": "husky install"
     },
     "keywords": [],
