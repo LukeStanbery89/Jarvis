@@ -8,4 +8,9 @@ export default {
     websocket: {
         reconnectInterval: 5000, // 5 seconds
     },
+    prompt_intent: {
+        wit_ai: {
+            intent_confidence_min: 0.80,
+        }
+    }
 };

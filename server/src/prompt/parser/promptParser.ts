@@ -1,37 +1,21 @@
-import { PromptModule, PromptModuleResult } from '../../../../shared/types/prompt';
-import TimeModule from '../modules/time';
-import WeatherModule from '../modules/weather';
+import { IntentParserStrategy, PromptIntentModule, PromptModuleResult } from '../../../../shared/types/prompt';
+import TimeIntentModule from '../modules/time';
+import WeatherIntentModule from '../modules/weather';
 
-const modules: { [key: string]: () => PromptModule } = {
-    weather: () => new WeatherModule(),
-    time: () => new TimeModule(),
+// FIXME: This creates a new instance of the prompt intent module with each user prompt.
+// Let's consider using a singleton. The challenge is not breaking the tests.
+const modules: { [key: string]: () => PromptIntentModule } = {
+    weather: () => new WeatherIntentModule(),
+    time: () => new TimeIntentModule(),
 };
 
-export async function parsePrompt(prompt: string): Promise<PromptModuleResult> {
-    const intent = await determineIntent(prompt);
-    console.debug("intent:", intent);
+export async function parsePrompt(prompt: string, strategy: IntentParserStrategy): Promise<PromptModuleResult> {
+    const intent = await strategy.determineIntent(prompt);
+    console.info(`Determined intent to be: ${intent.module}`);
 
-    if (modules[intent]) {
-        return modules[intent]().handlePrompt(prompt);
+    if (modules[intent.module]) {
+        return modules[intent.module]().handlePrompt(prompt, intent.value);
     } else {
         return { responseMessage: "Sorry, I don't know how to help with that yet." };
-    }
-}
-
-async function determineIntent(prompt: string): Promise<string> {
-    // // Implement intent recognition using an AI-driven package
-    // // Example using Wit.ai
-    // const response = await fetch(`https://api.wit.ai/message?v=20201004&q=${encodeURIComponent(prompt)}`, {
-    //     headers: { Authorization: `Bearer YOUR_WIT_AI_TOKEN` },
-    // });
-    // const data = await response.json();
-    // return data.intents[0]?.name || 'unknown';
-
-    if (prompt.toLowerCase().indexOf("weather") > -1) {
-        return "weather";
-    } else if (prompt.toLowerCase().indexOf("time") > -1) {
-        return "time";
-    } else {
-        return "unknown";
     }
 }

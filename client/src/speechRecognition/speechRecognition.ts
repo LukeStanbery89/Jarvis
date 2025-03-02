@@ -36,6 +36,10 @@ export class SpeechRecognition extends EventEmitter {
 
         audioInputStream.on(AUDIO_INPUT_EVENT.SILENCE, () => {
             const finalResult = this.speechRecognitionStrategy.finalResult()?.text;
+            // Fixed the double speaking?
+            if (this.partialTimeout) {
+                clearTimeout(this.partialTimeout);
+            }
             this.emitFinalResult(finalResult);
         });
     }

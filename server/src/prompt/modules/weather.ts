@@ -1,10 +1,13 @@
-import { PromptModule, PromptModuleResult } from '../../../../shared/types/prompt';
+import { PromptIntentModule, PromptModuleResult } from '../../../../shared/types/prompt';
 
-export default class WeatherModule implements PromptModule {
-    handlePrompt(prompt: string): Promise<PromptModuleResult> {
+export default class WeatherIntentModule implements PromptIntentModule {
+    constructor() {
+        console.log("instantiating weather module");
+    }
+    handlePrompt(prompt: string, entity?: any): Promise<PromptModuleResult> {
         return new Promise((resolve, reject) => {
             // FIXME
-            resolve({ responseMessage: "It's fuckin' hot, dawg." });
+            resolve({ responseMessage: "It's fuckin' hot, idiot." });
         });
     }
 }
