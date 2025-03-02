@@ -3,7 +3,7 @@ export interface PromptModuleResult {
 }
 
 export interface PromptIntentModule {
-    handlePrompt(prompt: string, entity?: any): Promise<PromptModuleResult>;
+    async handlePrompt(prompt: string, entity?: any): Promise<PromptModuleResult>;
 }
 
 export interface IntentParserStrategy {

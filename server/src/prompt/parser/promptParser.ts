@@ -14,7 +14,7 @@ export async function parsePrompt(prompt: string, strategy: IntentParserStrategy
     console.info(`Determined intent to be: ${intent.module}`);
 
     if (modules[intent.module]) {
-        return modules[intent.module]().handlePrompt(prompt, intent.value);
+        return await modules[intent.module]().handlePrompt(prompt, intent.value);
     } else {
         return { responseMessage: "Sorry, I don't know how to help with that yet." };
     }
