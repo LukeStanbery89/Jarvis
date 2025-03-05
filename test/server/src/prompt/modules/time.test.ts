@@ -17,7 +17,7 @@ describe('TimeIntentModule', () => {
         jest.spyOn(global, 'Date').mockImplementation(() => mockDate as unknown as Date);
 
         const result: PromptModuleResult = await timeIntentModule.handlePrompt('');
-        expect(result.responseMessage).toBe("It's 2 41 pm.");
+        expect(result.responseMessage).toBe("It's 2:41pm.");
     });
 
     it('should handle midnight correctly', async () => {
@@ -25,7 +25,7 @@ describe('TimeIntentModule', () => {
         jest.spyOn(global, 'Date').mockImplementation(() => mockDate as unknown as Date);
 
         const result: PromptModuleResult = await timeIntentModule.handlePrompt('');
-        expect(result.responseMessage).toBe("It's 12 05 am.");
+        expect(result.responseMessage).toBe("It's 12:05am.");
     });
 
     it('should handle noon correctly', async () => {
@@ -33,7 +33,7 @@ describe('TimeIntentModule', () => {
         jest.spyOn(global, 'Date').mockImplementation(() => mockDate as unknown as Date);
 
         const result: PromptModuleResult = await timeIntentModule.handlePrompt('');
-        expect(result.responseMessage).toBe("It's 12 00 pm.");
+        expect(result.responseMessage).toBe("It's 12:00pm.");
     });
 
     it('should handle errors gracefully', async () => {

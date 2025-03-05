@@ -1,5 +1,6 @@
 import { WebSocketClient } from "../../../../client/src/networking/websocketClient";
 import WebSocket from 'ws';
+import config from '../../../../shared/config';
 
 jest.mock('ws');
 jest.mock('../../../../shared/utils', () => ({
@@ -28,8 +29,8 @@ describe("WebSocketClient", () => {
     });
 
     it("should initialize the WebSocket connection", async () => {
-        await webSocketClient.initialize("ws://localhost:8080");
-        expect(WebSocket).toHaveBeenCalledWith("ws://localhost:8080");
+        await webSocketClient.initialize(`ws://localhost:${config.websocket.port}`);
+        expect(WebSocket).toHaveBeenCalledWith(`ws://localhost:${config.websocket.port}`);
         expect(mockWebSocket.onopen).toBeDefined();
         expect(mockWebSocket.onmessage).toBeDefined();
         expect(mockWebSocket.onerror).toBeDefined();
@@ -40,7 +41,7 @@ describe("WebSocketClient", () => {
         const messageHandler = jest.fn();
         webSocketClient.on("message", messageHandler);
 
-        await webSocketClient.initialize("ws://localhost:8080");
+        await webSocketClient.initialize(`ws://localhost:${config.websocket.port}`);
         const event = { data: "test message" } as WebSocket.MessageEvent;
         mockWebSocket.onmessage!(event);
 
@@ -50,7 +51,7 @@ describe("WebSocketClient", () => {
     it("should log an error when a WebSocket error occurs", async () => {
         const consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => { });
 
-        await webSocketClient.initialize("ws://localhost:8080");
+        await webSocketClient.initialize(`ws://localhost:${config.websocket.port}`);
         const error = { error: "error", type: "type", message: "websocket error" } as WebSocket.ErrorEvent;
         mockWebSocket.onerror!(error);
 
@@ -62,7 +63,7 @@ describe("WebSocketClient", () => {
     it("should log a message when the WebSocket connection is closed", async () => {
         const consoleInfoSpy = jest.spyOn(console, "info").mockImplementation(() => { });
 
-        await webSocketClient.initialize("ws://localhost:8080");
+        await webSocketClient.initialize(`ws://localhost:${config.websocket.port}`);
         const close = {} as WebSocket.CloseEvent;
         mockWebSocket.onclose!(close);
 
@@ -72,7 +73,7 @@ describe("WebSocketClient", () => {
     });
 
     it("should send data when the WebSocket is open", async () => {
-        await webSocketClient.initialize("ws://localhost:8080");
+        await webSocketClient.initialize(`ws://localhost:${config.websocket.port}`);
         const data = "test data";
         webSocketClient.send(data);
 
@@ -91,7 +92,7 @@ describe("WebSocketClient", () => {
         } as unknown as jest.Mocked<WebSocket>;
         (WebSocket as unknown as jest.Mock).mockImplementation(() => mockWebSocket);
 
-        await webSocketClient.initialize("ws://localhost:8080");
+        await webSocketClient.initialize(`ws://localhost:${config.websocket.port}`);
         const data = "test data";
         webSocketClient.send(data);
 

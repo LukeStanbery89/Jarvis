@@ -39,7 +39,7 @@ export function startVoiceMode(webSocketClient: WebSocketClient, textToSpeech: T
 
     // Speech Recognition
     speechRecognition.on(SPEECH_RECOGNITION_EVENT.PARTIAL, (text: string) => {
-        console.debug("Partial result:", text);
+        // console.debug("Partial result:", text);
     });
     speechRecognition.on(SPEECH_RECOGNITION_EVENT.SPEECH, (text: string) => {
         console.debug("You:", text);
@@ -55,7 +55,7 @@ export function startVoiceMode(webSocketClient: WebSocketClient, textToSpeech: T
         console.error("Error in Speech Recognition:", err);
     });
     speechRecognition.on(SPEECH_RECOGNITION_EVENT.SILENCE, () => {
-        console.debug("Silence detected");
+        // console.debug("Silence detected");
     });
 
     // Text To Speech
@@ -85,7 +85,6 @@ export function startVoiceMode(webSocketClient: WebSocketClient, textToSpeech: T
 
     // Gracefully handle program exit
     process.on(IO_EVENT.SIGINT, () => {
-        console.debug("SIGINT");
         speechRecognition.stop();
         process.exit();
     });

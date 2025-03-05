@@ -23,7 +23,7 @@ describe('WeatherIntentModule', () => {
         mockFetch.mockResolvedValue(mockResponse);
 
         const result: PromptModuleResult = await weatherModule.handlePrompt('weather', 'Aurora, Illinois, US');
-        expect(result.responseMessage).toBe("In Aurora, it is currently 75 degrees with clear sky. Today's high will be 80 degrees and the low will be 70 degrees.");
+        expect(result.responseMessage).toBe("In Aurora, it is currently 75 degrees with clear sky. Today's high will be 80 degrees with a low of 70.");
     });
 
     it('should return an error message when the API call fails', async () => {
@@ -45,7 +45,7 @@ describe('WeatherIntentModule', () => {
         mockFetch.mockResolvedValue(mockResponse);
 
         const result: PromptModuleResult = await weatherModule.handlePrompt('weather');
-        expect(result.responseMessage).toBe("In Aurora, it is currently 75 degrees with clear sky. Today's high will be 80 degrees and the low will be 70 degrees.");
+        expect(result.responseMessage).toBe("In Aurora, it is currently 75 degrees with clear sky. Today's high will be 80 degrees with a low of 70.");
     });
 
     it('should handle JSON parsing errors gracefully', async () => {

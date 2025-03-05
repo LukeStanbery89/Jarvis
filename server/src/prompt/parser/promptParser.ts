@@ -1,4 +1,4 @@
-import { IntentParserStrategy, PromptIntentModule, PromptModuleResult } from '../../../../shared/types/prompt';
+import { IntentParserStrategy, IntentResult, PromptIntentModule, PromptModuleResult } from '../../../../shared/types/prompt';
 import TimeIntentModule from '../modules/time';
 import WeatherIntentModule from '../modules/weather';
 
@@ -9,10 +9,13 @@ const modules: { [key: string]: () => PromptIntentModule } = {
     time: () => new TimeIntentModule(),
 };
 
-export async function parsePrompt(prompt: string, strategy: IntentParserStrategy): Promise<PromptModuleResult> {
+export async function parseIntent(prompt: string, strategy: IntentParserStrategy): Promise<IntentResult> {
     const intent = await strategy.determineIntent(prompt);
     console.info(`Determined intent to be: ${intent.module}`);
+    return intent;
+}
 
+export async function getPromptResponse(prompt: string, intent: IntentResult) {
     if (modules[intent.module]) {
         return await modules[intent.module]().handlePrompt(prompt, intent.value);
     } else {

@@ -1,13 +1,14 @@
 import { EventEmitter } from "events";
 import * as WebSocket from "ws";
 import { PromptModuleResult } from '../../../shared/types/prompt';
+import config from '../../../shared/config';
 
 export class WebSocketServer extends EventEmitter {
     private wss: WebSocket.Server;
 
     constructor() {
         super();
-        this.wss = new WebSocket.Server({ port: 8080 });
+        this.wss = new WebSocket.Server({ port: config.websocket.port });
 
         this.wss.on("connection", (ws: WebSocket) => {
             console.info("WebSocketServer", "connection opened");

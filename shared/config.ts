@@ -7,6 +7,7 @@ export default {
     },
     websocket: {
         reconnectInterval: 5000, // 5 seconds
+        port: 8080,
     },
     prompt_intent: {
         wit_ai: {

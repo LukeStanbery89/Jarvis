@@ -11,7 +11,6 @@ export class WitIntentParserStrategy implements IntentParserStrategy {
                 },
             });
             data = await response.json();
-            console.debug("Wit.AI response:", data);
         } catch (error) {
             console.error("WitIntentParserStrategy", "API Error");
         }
